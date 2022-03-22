@@ -30,7 +30,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import 'vue-select/dist/vue-select.css';
+
 .wrapper {
   padding: 20px;
   display: flex;
