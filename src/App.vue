@@ -26,6 +26,10 @@ export default {
       holdings: 100500,
       currency: 'USD'
     }
+  },
+
+  mounted () {
+    window.document.title = this.holdings + this.currency
   }
 }
 </script>
