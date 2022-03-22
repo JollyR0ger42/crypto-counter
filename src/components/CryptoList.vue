@@ -21,9 +21,10 @@ export default {
 <style lang="scss" scoped>
 .crypto-list {
   display: flex;
+  flex-wrap: wrap;
 
   &__card {
-    max-width: 250px;
+    min-width: 250px;
   }
 
   @media (max-width: 600px) {
