@@ -9,7 +9,7 @@
       <input size="10" class="crypto-card__amount__input" v-model="amount">
     </div>
     <p>Holdings:
-      <span class="crypto-card__price">100500000 USD</span>
+      <span class="crypto-card__holdings">100500000 USD</span>
     </p>
   </div>
 </template>
@@ -68,6 +68,10 @@ export default {
   }
 
   &__price {
+    color: #E0CE07;
+  }
+
+  &__holdings {
     color: #B2D806;
   }
 }

@@ -56,7 +56,7 @@ export default {
     margin-bottom: 25px;
 
     &__holdings {
-      color: #5AC706;
+      color: #59C606;
       font-size: 1.8rem;
     }
   }
