@@ -6,19 +6,19 @@
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
     <app-select class="app__select" />
-    <list-of-crypto />
+    <crypto-list />
   </div>
 </div>
 </template>
 
 <script>
 import AppSelect from './components/AppSelect.vue'
-import ListOfCrypto from './components/ListOfCrypto.vue'
+import CryptoList from './components/CryptoList.vue'
 
 export default {
   components: {
     AppSelect,
-    ListOfCrypto
+    CryptoList
   },
 
   data () {
@@ -41,7 +41,7 @@ export default {
 }
 
 .app {
-  max-width: 800px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
