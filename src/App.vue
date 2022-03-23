@@ -21,6 +21,7 @@
 <script>
 import AppSelect from './components/AppSelect.vue'
 import CryptoList from './components/CryptoList.vue'
+import {ref} from 'vue'
 
 export default {
   components: {
@@ -28,24 +29,28 @@ export default {
     CryptoList
   },
 
+  setup () {
+    let selectOptions
+    try {
+      selectOptions = JSON.parse(localStorage.getItem('selectOptions'))
+    } catch {
+      localStorage.removeItem('selectOptions')
+    } finally {
+      if (!selectOptions || !selectOptions.length) {
+        selectOptions = [{ code: 'Refresh', label: 'Refresh crypto list.' }]
+        localStorage.setItem('selectOptions', JSON.stringify(selectOptions))
+      }
+    }
+    return {
+      selectOptions: ref(selectOptions)
+    }
+  },
+
   data () {
     return {
+      apiUrl: 'https://api.binance.com/api/v3/',
       holdings: 100500,
       currency: 'USD',
-      selectOptions: [
-        {
-          code: 'BTCUSDT',
-          label: 'BTC / USDT'
-        },
-        {
-          code: 'ETHBTC',
-          label: 'ETH / BTC'
-        },
-        {
-          code: 'DOGEETH',
-          label: 'DOGE / ETH'
-        }
-      ],
       selectedCrypto: [{
           name: 'BTC',
           price: 45000,
@@ -73,6 +78,25 @@ export default {
   methods: {
     refetchCryptoList () {
       console.log('refetching')
+      fetch(this.apiUrl + 'exchangeInfo')
+        .then(response => response.json())
+        .then(data => {
+          this.selectOptions = this.parseSymbols(data?.symbols)
+          localStorage.setItem('selectOptions', JSON.stringify(this.selectOptions))
+        })
+    },
+    parseSymbols (symbols) {
+      const result = []
+      symbols?.forEach(symbol => {
+        if (symbol.quoteAsset === 'USDT') {
+          const listElement = {
+            code: symbol.symbol,
+            label: `${symbol.baseAsset} / ${symbol.quoteAsset}`
+          }
+          result.push(listElement)
+        }
+      })
+      return result
     }
   }
 }
