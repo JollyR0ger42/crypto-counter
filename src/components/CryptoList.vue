@@ -1,8 +1,11 @@
 <template>
   <div class="crypto-list">
-    <crypto-card class="crypto-list__card" />
-    <crypto-card class="crypto-list__card" />
-    <crypto-card class="crypto-list__card" />
+    <crypto-card
+      v-for="(crypto, idx) in selectedCrypto"
+      v-bind="crypto"
+      :key="idx"
+      class="crypto-list__card"
+    />
   </div>
 </template>
 
@@ -14,6 +17,10 @@ export default {
 
   components: {
     CryptoCard
+  },
+
+  props: {
+    selectedCrypto: Array
   }
 }
 </script>

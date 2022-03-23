@@ -5,8 +5,15 @@
       Holdings:
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
-    <app-select class="app__select" />
-    <crypto-list />
+    <app-select
+      class="app__select"
+      :options="selectOptions"
+      :refetching="true"
+      @refresh-select-list="refetchCryptoList"
+    />
+    <crypto-list
+      :selectedCrypto="selectedCrypto"
+    />
   </div>
 </div>
 </template>
@@ -24,12 +31,49 @@ export default {
   data () {
     return {
       holdings: 100500,
-      currency: 'USD'
+      currency: 'USD',
+      selectOptions: [
+        {
+          code: 'BTCUSDT',
+          label: 'BTC / USDT'
+        },
+        {
+          code: 'ETHBTC',
+          label: 'ETH / BTC'
+        },
+        {
+          code: 'DOGEETH',
+          label: 'DOGE / ETH'
+        }
+      ],
+      selectedCrypto: [{
+          name: 'BTC',
+          price: 45000,
+          currency: 'USD',
+          amount: 100
+        }, {
+          name: 'BTC',
+          price: 45000,
+          currency: 'USD',
+          amount: 100
+        }, {
+          name: 'BTC',
+          price: 45000,
+          currency: 'USD',
+          amount: 100
+        }
+      ]
     }
   },
 
   mounted () {
     window.document.title = this.holdings + this.currency
+  },
+
+  methods: {
+    refetchCryptoList () {
+      console.log('refetching')
+    }
   }
 }
 </script>

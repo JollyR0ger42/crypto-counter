@@ -1,5 +1,6 @@
 <template>
   <div class="crypto-card">
+    <button class="crypto-card__close">x</button>
     <p class="crypto-card__title">{{name}}</p>
     <p>Price:
       <span class="crypto-card__price">{{price}} {{currency}}</span>
@@ -18,24 +19,43 @@
 export default {
   name: 'CryptoCard',
 
-  data () {
-    return {
-      name: 'BTC',
-      price: 45000,
-      currency: 'USD',
-      amount: 100
-    }
-  }
+  props: {
+    name: String,
+    price: Number,
+    currency: String,
+    amount: Number
+  },
+
+  unmounted () {
+    console.log('card unmounted')
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .crypto-card {
+  position: relative;
   display: inline-block;
   padding: 10px;
   margin: 10px;
   border: 2px solid #fff;
   font-size: 1rem;
+
+  &__close {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    background-color: #fff;
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: red;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 1.5px #664cc3;
+  }
 
   & > *:not(:last-child) {
     margin-bottom: 5px;
