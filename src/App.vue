@@ -10,11 +10,12 @@
       :options="selectOptions"
       :refreshing="refreshingSelect"
       @refresh-select-list="refetchCryptoList"
-      @select-crypto="addSlectedCrypto"
+      @add-crypto="addCrypto"
     />
     <crypto-list
       :currency="currency"
       :selectedCrypto="selectedCrypto"
+      @remove-crypto="removeCrypto"
     />
   </div>
 </div>
@@ -57,21 +58,7 @@ export default {
       apiUrl: 'https://api.binance.com/api/v3/',
       holdings: 100500,
       currency: 'USDT',
-      refreshingSelect: false,
-      // selectedCrypto: [{
-      //     symbol: 'BTCUSDT',
-      //     label: 'BTC',
-      //     amount: 300
-      //   }, {
-      //     symbol: 'ETHUSDT',
-      //     label: 'ETH',
-      //     amount: 300
-      //   }, {
-      //     symbol: 'DOGEUSDT',
-      //     label: 'DOGE',
-      //     amount: 300
-      //   }
-      // ]
+      refreshingSelect: false
     }
   },
 
@@ -103,9 +90,13 @@ export default {
       })
       return result
     },
-    addSlectedCrypto (crypto) {
+    addCrypto (crypto) {
       this.selectedCrypto.push(crypto)
-      localStorage.setItem('selectedCrypto', JSON.stringify(this.selectOptions))
+      localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
+    },
+    removeCrypto (idx) {
+      this.selectedCrypto.splice(idx, 1)
+      localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     }
   }
 }
@@ -121,6 +112,7 @@ export default {
   background-color: #000;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 }
 
 .app {

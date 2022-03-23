@@ -1,11 +1,12 @@
 <template>
   <div class="crypto-list">
     <crypto-card
+      class="crypto-list__card"
       v-for="(crypto, idx) in selectedCrypto"
       v-bind="crypto"
       :currency="currency"
       :key="idx"
-      class="crypto-list__card"
+      @remove-crypto="$emit('remove-crypto', idx)"
     />
   </div>
 </template>
@@ -31,6 +32,7 @@ export default {
 .crypto-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   &__card {
     min-width: 250px;

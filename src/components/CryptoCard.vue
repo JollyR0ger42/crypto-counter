@@ -1,6 +1,9 @@
 <template>
   <div class="crypto-card">
-    <button class="crypto-card__close">x</button>
+    <button
+      class="crypto-card__close"
+      @click="$emit('remove-crypto')"
+    >x</button>
     <p class="crypto-card__title">{{label}}</p>
     <p>Price:
       <span class="crypto-card__price">{{price}} {{currency}}</span>
@@ -26,6 +29,10 @@ export default {
     currency: String
   },
 
+  emits: {
+    'remove-crypto': null
+  },
+
   data () {
     return {
       price: 300,
@@ -49,9 +56,10 @@ export default {
   font-size: 1rem;
 
   &__close {
+    box-sizing: border-box;
     position: absolute;
-    top: 1px;
-    right: 1px;
+    top: 2px;
+    right: 3px;
     background-color: #fff;
     font-size: 1rem;
     width: 1rem;

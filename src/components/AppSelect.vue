@@ -31,7 +31,7 @@ export default {
 
   emits: {
     'refresh-select-list': null,
-    'select-crypto': null
+    'add-crypto': null
   },
 
   data () {
@@ -69,7 +69,7 @@ export default {
   methods: {
     onInput () {
       if (this.selected?.code === 'Refresh') this.$emit('refresh-select-list')
-      else this.$emit('select-crypto', {...this.selected, amount: 0})
+      else this.$emit('add-crypto', {...this.selected, amount: 0})
       this.selected = null
     }
   }
@@ -78,8 +78,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-select {
-  width: 100%;
-  max-width: 500px;
+  width: 300px;
   display: flex;
 
   &__refresh {
