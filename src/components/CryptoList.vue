@@ -3,6 +3,7 @@
     <crypto-card
       v-for="(crypto, idx) in selectedCrypto"
       v-bind="crypto"
+      :currency="currency"
       :key="idx"
       class="crypto-list__card"
     />
@@ -20,7 +21,8 @@ export default {
   },
 
   props: {
-    selectedCrypto: Array
+    selectedCrypto: Array,
+    currency: String
   }
 }
 </script>

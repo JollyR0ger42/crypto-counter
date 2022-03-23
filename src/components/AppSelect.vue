@@ -30,7 +30,8 @@ export default {
   },
 
   emits: {
-    'refresh-select-list': null
+    'refresh-select-list': null,
+    'select-crypto': null
   },
 
   data () {
@@ -67,8 +68,8 @@ export default {
 
   methods: {
     onInput () {
-      console.log(this.selected)
       if (this.selected?.code === 'Refresh') this.$emit('refresh-select-list')
+      else this.$emit('select-crypto', {...this.selected, amount: 0})
       this.selected = null
     }
   }

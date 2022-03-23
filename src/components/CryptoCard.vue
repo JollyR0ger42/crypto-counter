@@ -1,7 +1,7 @@
 <template>
   <div class="crypto-card">
     <button class="crypto-card__close">x</button>
-    <p class="crypto-card__title">{{name}}</p>
+    <p class="crypto-card__title">{{label}}</p>
     <p>Price:
       <span class="crypto-card__price">{{price}} {{currency}}</span>
     </p>
@@ -10,7 +10,7 @@
       <input size="10" class="crypto-card__amount__input" v-model="amount">
     </div>
     <p>Holdings:
-      <span class="crypto-card__holdings">100500000 USD</span>
+      <span class="crypto-card__holdings">100500000 {{currency}}</span>
     </p>
   </div>
 </template>
@@ -20,10 +20,17 @@ export default {
   name: 'CryptoCard',
 
   props: {
-    name: String,
-    price: Number,
-    currency: String,
-    amount: Number
+    symbol: String,
+    label: String,
+    amount: Number,
+    currency: String
+  },
+
+  data () {
+    return {
+      price: 300,
+      holdings: 100500
+    }
   },
 
   unmounted () {

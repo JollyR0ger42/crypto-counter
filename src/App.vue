@@ -10,8 +10,10 @@
       :options="selectOptions"
       :refreshing="refreshingSelect"
       @refresh-select-list="refetchCryptoList"
+      @select-crypto="addSlectedCrypto"
     />
     <crypto-list
+      :currency="currency"
       :selectedCrypto="selectedCrypto"
     />
   </div>
@@ -31,18 +33,22 @@ export default {
 
   setup () {
     let selectOptions
-    try {
-      selectOptions = JSON.parse(localStorage.getItem('selectOptions'))
-    } catch {
-      localStorage.removeItem('selectOptions')
-    } finally {
-      if (!selectOptions || !selectOptions.length) {
+    try {selectOptions = JSON.parse(localStorage.getItem('selectOptions'))}
+    catch {localStorage.removeItem('selectOptions')}
+    finally {
+      if (!selectOptions?.length) {
         selectOptions = [{ code: 'Refresh', label: 'Refresh crypto list.' }]
         localStorage.setItem('selectOptions', JSON.stringify(selectOptions))
       }
     }
+
+    let selectedCrypto
+    try {selectedCrypto = JSON.parse(localStorage.getItem('selectedCrypto'))}
+    catch {localStorage.removeItem('selectedCrypto')}
+  
     return {
-      selectOptions: ref(selectOptions)
+      selectOptions: ref(selectOptions),
+      selectedCrypto: ref(selectedCrypto ?? [])
     }
   },
 
@@ -50,25 +56,22 @@ export default {
     return {
       apiUrl: 'https://api.binance.com/api/v3/',
       holdings: 100500,
-      currency: 'USD',
+      currency: 'USDT',
       refreshingSelect: false,
-      selectedCrypto: [{
-          name: 'BTC',
-          price: 45000,
-          currency: 'USD',
-          amount: 100
-        }, {
-          name: 'BTC',
-          price: 45000,
-          currency: 'USD',
-          amount: 100
-        }, {
-          name: 'BTC',
-          price: 45000,
-          currency: 'USD',
-          amount: 100
-        }
-      ]
+      // selectedCrypto: [{
+      //     symbol: 'BTCUSDT',
+      //     label: 'BTC',
+      //     amount: 300
+      //   }, {
+      //     symbol: 'ETHUSDT',
+      //     label: 'ETH',
+      //     amount: 300
+      //   }, {
+      //     symbol: 'DOGEUSDT',
+      //     label: 'DOGE',
+      //     amount: 300
+      //   }
+      // ]
     }
   },
 
@@ -78,7 +81,6 @@ export default {
 
   methods: {
     refetchCryptoList () {
-      console.log('refetching')
       this.refreshingSelect = true
       fetch(this.apiUrl + 'exchangeInfo')
         .then(response => response.json())
@@ -91,15 +93,19 @@ export default {
     parseSymbols (symbols) {
       const result = []
       symbols?.forEach(symbol => {
-        if (symbol.quoteAsset === 'USDT') {
+        if (symbol.quoteAsset === this.currency) {
           const listElement = {
-            code: symbol.symbol,
-            label: `${symbol.baseAsset} / ${symbol.quoteAsset}`
+            symbol: symbol.symbol,
+            label: `${symbol.baseAsset}`
           }
           result.push(listElement)
         }
       })
       return result
+    },
+    addSlectedCrypto (crypto) {
+      this.selectedCrypto.push(crypto)
+      localStorage.setItem('selectedCrypto', JSON.stringify(this.selectOptions))
     }
   }
 }
