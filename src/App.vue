@@ -8,7 +8,7 @@
     <app-select
       class="app__select"
       :options="selectOptions"
-      :refetching="true"
+      :refreshing="refreshingSelect"
       @refresh-select-list="refetchCryptoList"
     />
     <crypto-list
@@ -51,6 +51,7 @@ export default {
       apiUrl: 'https://api.binance.com/api/v3/',
       holdings: 100500,
       currency: 'USD',
+      refreshingSelect: false,
       selectedCrypto: [{
           name: 'BTC',
           price: 45000,
@@ -78,12 +79,14 @@ export default {
   methods: {
     refetchCryptoList () {
       console.log('refetching')
+      this.refreshingSelect = true
       fetch(this.apiUrl + 'exchangeInfo')
         .then(response => response.json())
         .then(data => {
           this.selectOptions = this.parseSymbols(data?.symbols)
           localStorage.setItem('selectOptions', JSON.stringify(this.selectOptions))
         })
+        .finally(() => this.refreshingSelect = false)
     },
     parseSymbols (symbols) {
       const result = []

@@ -26,7 +26,7 @@ export default {
 
   props: {
     options: Array,
-    refetching: Boolean
+    refreshing: Boolean
   },
 
   emits: {
@@ -41,6 +41,26 @@ export default {
     }
   },
 
+  watch: {
+    refreshing: {
+      handler (newVal) {
+        if (newVal) {
+          this.refreshButtonText = '.'
+          this.intervalId = setInterval(() => {
+            if (this.refreshButtonText.length > 2)
+              this.refreshButtonText = '.'
+            else
+              this.refreshButtonText += '.'
+          }, 333)
+        } else {
+          clearInterval(this.intervalId)
+          this.refreshButtonText = 'Refresh'
+        }
+      },
+      immediate: true
+    }
+  },
+
   unmounted () {
     clearInterval(this.intervalId)
   },
@@ -48,6 +68,7 @@ export default {
   methods: {
     onInput () {
       console.log(this.selected)
+      if (this.selected?.code === 'Refresh') this.$emit('refresh-select-list')
       this.selected = null
     }
   }
