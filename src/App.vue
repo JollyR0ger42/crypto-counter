@@ -24,7 +24,7 @@
 <script>
 import AppSelect from './components/AppSelect.vue'
 import CryptoList from './components/CryptoList.vue'
-import {ref} from 'vue'
+import {ref, isRef, isReactive} from 'vue'
 
 export default {
   components: {
@@ -48,8 +48,8 @@ export default {
     catch {localStorage.removeItem('selectedCrypto')}
   
     return {
+      selectedCrypto: ref(selectedCrypto ?? []),
       selectOptions: ref(selectOptions),
-      selectedCrypto: ref(selectedCrypto ?? [])
     }
   },
 
@@ -64,6 +64,10 @@ export default {
 
   mounted () {
     window.document.title = this.holdings + this.currency
+  },
+
+  updated () {
+    console.log('updated')
   },
 
   methods: {
@@ -92,11 +96,12 @@ export default {
     },
     addCrypto (crypto) {
       console.log('addCrypto', crypto)
-      this.selectedCrypto.push(crypto)
+      this.selectedCrypto = [...this.selectedCrypto, crypto]
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     },
     removeCrypto (idx) {
       this.selectedCrypto.splice(idx, 1)
+      this.selectedCrypto = [...this.selectedCrypto]
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     }
   }
