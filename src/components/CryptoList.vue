@@ -35,7 +35,7 @@ export default {
   justify-content: center;
 
   &__card {
-    min-width: 250px;
+    min-width: 200px;
   }
 
   @media (max-width: 600px) {

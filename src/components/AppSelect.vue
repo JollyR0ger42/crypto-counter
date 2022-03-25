@@ -78,8 +78,9 @@ export default {
 
 <style lang="scss" scoped>
 .app-select {
-  width: 300px;
+  width: 250px;
   display: flex;
+  margin: 15px;
 
   &__refresh {
     border: solid 1.5px #664cc3;

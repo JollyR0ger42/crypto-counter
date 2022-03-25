@@ -14,7 +14,6 @@
       >
     </div>
     <app-select
-      class="app__select"
       :options="selectOptions"
       :refreshing="refreshingSelect"
       @refresh-select-list="refetchCryptoList"
@@ -122,17 +121,16 @@ export default {
 @import './scroll.css';
 
 .wrapper {
-  padding: 20px;
   display: flex;
   justify-content: center;
   background-color: #000;
   width: 100%;
   height: 100%;
-  overflow-y: overlay;
+  overflow: overlay;
 }
 
 .app {
-  max-width: 900px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,10 +148,6 @@ export default {
     }
   }
 
-  &__select {
-    margin: 15px;
-  }
-
   &__summary {
     font-size: 1.5rem;
     text-align: center;
@@ -162,6 +156,7 @@ export default {
     &__holdings {
       color: #59C606;
       font-size: 1.8rem;
+      word-break: break-word;
     }
   }
 }
