@@ -2,7 +2,7 @@
 <div class="wrapper">
   <div class="app">
     <div class="app__summary">
-      Holdings:
+      <span>Holdings:</span>
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
     <div class="app__refresh">
@@ -24,7 +24,7 @@
       :currency="currency"
       :selectedCrypto="selectedCrypto"
       @remove-crypto="removeCrypto"
-      @set-crypto-price="setCryptoPrice"
+      @set-crypto-price="setCryptoAmount"
     />
   </div>
 </div>
@@ -65,7 +65,6 @@ export default {
   data () {
     return {
       apiUrl: 'https://api.binance.com/api/v3/',
-      holdings: 100500,
       currency: 'USDT',
       refreshingSelect: false,
       refreshTime: 60,
@@ -73,8 +72,19 @@ export default {
     }
   },
 
+  computed: {
+    holdings () {
+      return this.selectedCrypto.reduce((acc, val) => acc + val.holdings, 0).toFixed(2)
+    }
+  },
+
+  watch: {
+    holdings () {
+      window.document.title = this.holdings + ' ' + this.currency
+    }
+  },
+
   mounted () {
-    window.document.title = this.holdings + this.currency
     this.setRefreshInterval()
   },
 
@@ -106,6 +116,7 @@ export default {
       console.log('addCrypto', crypto)
       this.selectedCrypto = [...this.selectedCrypto, crypto]
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
+      this.refreshCrypto()
     },
     removeCrypto (idx) {
       this.selectedCrypto.splice(idx, 1)
@@ -113,7 +124,12 @@ export default {
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     },
     refreshCrypto() {
-      console.log('crypto refreshed')
+      this.selectedCrypto.forEach(crypto => {
+        fetch(this.apiUrl + 'avgPrice?symbol=' + crypto.symbol)
+          .then(response => response.json())
+          .then(data => crypto.price = +data.price)
+          .finally(() => crypto.holdings = +(crypto.amount * crypto.price).toFixed(2))
+      })
     },
     validateRefreshTime (event) {
       const newVal = event.target.value
@@ -130,10 +146,11 @@ export default {
         this.refreshId = setInterval(this.refreshCrypto, this.refreshTime * 1000)
       }
     },
-    setCryptoPrice (payload) {
+    setCryptoAmount (payload) {
       const {val, idx} = payload
       this.selectedCrypto[idx].amount = val
       this.$forceUpdate()
+      localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     }
   }
 }
@@ -174,11 +191,10 @@ export default {
   &__summary {
     font-size: 1.5rem;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 
     &__holdings {
       color: #59C606;
-      font-size: 1.8rem;
       word-break: break-word;
     }
   }

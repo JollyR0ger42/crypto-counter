@@ -6,7 +6,7 @@
     >x</button>
     <p class="crypto-card__title">{{label}}</p>
     <p>Price:
-      <span class="crypto-card__price">{{price}} {{currency}}</span>
+      <span class="crypto-card__price">{{price || '-'}} {{currency}}</span>
     </p>
     <div class="crypto-card__amount">
       <span class="crypto-card__amount__label">Amount:</span>
@@ -19,7 +19,7 @@
       >
     </div>
     <p>Holdings:
-      <span class="crypto-card__holdings">100500000 {{currency}}</span>
+      <span class="crypto-card__holdings">{{holdings || '-'}} {{currency}}</span>
     </p>
   </div>
 </template>
@@ -32,7 +32,9 @@ export default {
     symbol: String,
     label: String,
     amount: Number,
-    currency: String
+    currency: String,
+    price: Number,
+    holdings: Number,
   },
 
   emits: {
@@ -42,8 +44,6 @@ export default {
 
   data () {
     return {
-      price: 300,
-      holdings: 100500,
       _amount: this.amount
     }
   },
