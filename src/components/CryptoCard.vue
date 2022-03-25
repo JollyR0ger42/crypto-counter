@@ -38,11 +38,7 @@ export default {
       price: 300,
       holdings: 100500
     }
-  },
-
-  unmounted () {
-    console.log('card unmounted')
-  },
+  }
 }
 </script>
 

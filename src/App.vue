@@ -6,10 +6,11 @@
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
     <div class="app__refresh">
-      <span>Refresh (sec):</span>
+      <span>Refresh (min 10 sec):</span>
       <input
         class="app__refresh__input"
-        v-model.number="refreshTime"
+        v-model="refreshTime"
+        @change="validateRefreshTime"
         size="1"
       >
     </div>
@@ -66,16 +67,14 @@ export default {
       holdings: 100500,
       currency: 'USDT',
       refreshingSelect: false,
-      refreshTime: 60
+      refreshTime: 60,
+      refreshId: null
     }
   },
 
   mounted () {
     window.document.title = this.holdings + this.currency
-  },
-
-  updated () {
-    console.log('updated')
+    this.setRefreshInterval()
   },
 
   methods: {
@@ -111,6 +110,23 @@ export default {
       this.selectedCrypto.splice(idx, 1)
       this.selectedCrypto = [...this.selectedCrypto]
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
+    },
+    refreshCrypto() {
+      console.log('crypto refreshed')
+    },
+    validateRefreshTime (event) {
+      const newVal = event.target.value
+      if (newVal === 0) this.refreshTime = 0
+      else if (newVal < 10) this.refreshTime = 10
+      else this.refreshTime = newVal
+      this.setRefreshInterval()
+    },
+    setRefreshInterval () {
+      clearInterval(this.refreshId)
+      if (this.refreshTime) {
+        console.log('new timer', this.refreshTime)
+        this.refreshId = setInterval(this.refreshCrypto, this.refreshTime * 1000)
+      }
     }
   }
 }
