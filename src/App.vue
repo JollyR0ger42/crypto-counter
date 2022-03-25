@@ -5,6 +5,14 @@
       Holdings:
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
+    <div class="app__refresh">
+      <span>Refresh (sec):</span>
+      <input
+        class="app__refresh__input"
+        v-model.number="refreshTime"
+        size="1"
+      >
+    </div>
     <app-select
       class="app__select"
       :options="selectOptions"
@@ -58,7 +66,8 @@ export default {
       apiUrl: 'https://api.binance.com/api/v3/',
       holdings: 100500,
       currency: 'USDT',
-      refreshingSelect: false
+      refreshingSelect: false,
+      refreshTime: 60
     }
   },
 
@@ -110,6 +119,7 @@ export default {
 
 <style lang="scss">
 @import 'vue-select/dist/vue-select.css';
+@import './scroll.css';
 
 .wrapper {
   padding: 20px;
@@ -118,7 +128,7 @@ export default {
   background-color: #000;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: overlay;
 }
 
 .app {
@@ -126,6 +136,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__refresh {
+    font-size: 1rem;
+
+    &__input {
+      background-color: #000;
+      border: solid 1.5px #664cc3;
+      font-size: 1rem;
+      margin-left: 5px;
+      border-radius: 2px;
+      padding-left: 5px;
+    }
+  }
 
   &__select {
     margin: 15px;
