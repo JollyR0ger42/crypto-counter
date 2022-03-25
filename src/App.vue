@@ -113,7 +113,6 @@ export default {
       return result
     },
     addCrypto (crypto) {
-      console.log('addCrypto', crypto)
       this.selectedCrypto = [...this.selectedCrypto, crypto]
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
       this.refreshCrypto()
@@ -142,7 +141,6 @@ export default {
       clearInterval(this.refreshId)
       this.refreshCrypto()
       if (this.refreshTime) {
-        console.log('new timer', this.refreshTime)
         this.refreshId = setInterval(this.refreshCrypto, this.refreshTime * 1000)
       }
     },
