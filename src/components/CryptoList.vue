@@ -7,6 +7,7 @@
       :currency="currency"
       :key="idx"
       @remove-crypto="$emit('remove-crypto', idx)"
+      @set-crypto-price="val => $emit('set-crypto-price', {val, idx})"
     />
   </div>
 </template>

@@ -24,6 +24,7 @@
       :currency="currency"
       :selectedCrypto="selectedCrypto"
       @remove-crypto="removeCrypto"
+      @set-crypto-price="setCryptoPrice"
     />
   </div>
 </div>
@@ -123,10 +124,16 @@ export default {
     },
     setRefreshInterval () {
       clearInterval(this.refreshId)
+      this.refreshCrypto()
       if (this.refreshTime) {
         console.log('new timer', this.refreshTime)
         this.refreshId = setInterval(this.refreshCrypto, this.refreshTime * 1000)
       }
+    },
+    setCryptoPrice (payload) {
+      const {val, idx} = payload
+      this.selectedCrypto[idx].amount = val
+      this.$forceUpdate()
     }
   }
 }
@@ -134,7 +141,7 @@ export default {
 
 <style lang="scss">
 @import 'vue-select/dist/vue-select.css';
-@import './scroll.css';
+@import './styles.css';
 
 .wrapper {
   display: flex;

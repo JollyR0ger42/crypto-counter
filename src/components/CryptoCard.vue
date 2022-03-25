@@ -10,7 +10,13 @@
     </p>
     <div class="crypto-card__amount">
       <span class="crypto-card__amount__label">Amount:</span>
-      <input size="10" class="crypto-card__amount__input" v-model="amount">
+      <input
+        class="crypto-card__amount__input"
+        type="number"
+        :value="_amount"
+        @input="handleAmount"
+        size="10"
+      >
     </div>
     <p>Holdings:
       <span class="crypto-card__holdings">100500000 {{currency}}</span>
@@ -30,13 +36,22 @@ export default {
   },
 
   emits: {
-    'remove-crypto': null
+    'remove-crypto': null,
+    'set-crypto-price': Number
   },
 
   data () {
     return {
       price: 300,
-      holdings: 100500
+      holdings: 100500,
+      _amount: this.amount
+    }
+  },
+
+  methods: {
+    handleAmount (event) {
+      this._amount = Number(event.target.value)
+      this.$emit('set-crypto-price', this._amount)
     }
   }
 }
