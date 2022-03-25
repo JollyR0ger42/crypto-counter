@@ -31,7 +31,7 @@
 <script>
 import AppSelect from './components/AppSelect.vue'
 import CryptoList from './components/CryptoList.vue'
-import {ref, isRef, isReactive} from 'vue'
+import {ref} from 'vue'
 
 export default {
   components: {
