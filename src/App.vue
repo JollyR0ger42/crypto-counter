@@ -91,6 +91,7 @@ export default {
       return result
     },
     addCrypto (crypto) {
+      console.log('addCrypto', crypto)
       this.selectedCrypto.push(crypto)
       localStorage.setItem('selectedCrypto', JSON.stringify(this.selectedCrypto))
     },

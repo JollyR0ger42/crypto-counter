@@ -69,7 +69,7 @@ export default {
   methods: {
     onInput () {
       if (this.selected?.code === 'Refresh') this.$emit('refresh-select-list')
-      else this.$emit('add-crypto', {...this.selected, amount: 0})
+      else if (this.selected) this.$emit('add-crypto', {...this.selected, amount: 0})
       this.selected = null
     }
   }
