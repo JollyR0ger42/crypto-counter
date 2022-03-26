@@ -97,6 +97,7 @@ export default {
           localStorage.setItem('selectOptions', JSON.stringify(this.selectOptions))
         })
         .finally(() => this.refreshingSelect = false)
+      this.refreshCrypto()
     },
     parseSymbols (symbols) {
       const result = []
