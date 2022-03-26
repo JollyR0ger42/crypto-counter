@@ -67,7 +67,7 @@ export default {
       apiUrl: 'https://api.binance.com/api/v3/',
       currency: 'USDT',
       refreshingSelect: false,
-      refreshTime: 60,
+      refreshTime: localStorage.getItem('refreshTime') || 60,
       refreshId: null
     }
   },
@@ -135,6 +135,7 @@ export default {
       if (newVal === 0) this.refreshTime = 0
       else if (newVal < 10) this.refreshTime = 10
       else this.refreshTime = newVal
+      localStorage.setItem('refreshTime', this.refreshTime)
       this.setRefreshInterval()
     },
     setRefreshInterval () {
