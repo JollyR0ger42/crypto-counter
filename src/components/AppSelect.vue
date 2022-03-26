@@ -55,7 +55,7 @@ export default {
           }, 333)
         } else {
           clearInterval(this.intervalId)
-          this.refreshButtonText = 'Refresh'
+          this.refreshButtonText = '↻'
         }
       },
       immediate: true
@@ -80,13 +80,14 @@ export default {
 .app-select {
   width: 250px;
   display: flex;
-  margin: 15px;
+  margin: 15px 0;
 
   &__refresh {
     border: solid 1.5px #664cc3;
     border-radius: 2px;
     padding: 5px;
     margin-left: 5px;
+    font-size: 0.75rem;
   }
 
   &__vselect {
