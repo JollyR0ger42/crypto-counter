@@ -2,7 +2,6 @@
 <div class="wrapper">
   <div class="app">
     <div class="app__summary">
-      <span>Holdings:</span>
       <span class="app__summary__holdings">{{holdings}} {{currency}}</span>
     </div>
     <div class="app__refresh">

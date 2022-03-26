@@ -4,9 +4,9 @@
       class="crypto-card__close"
       @click="$emit('remove-crypto')"
     >x</button>
-    <p class="crypto-card__title">{{label}}</p>
+    <p class="crypto-card__title">{{label}} / {{currency}}</p>
     <p>Price:
-      <span class="crypto-card__price">{{price || '-'}} {{currency}}</span>
+      <span class="crypto-card__price">{{_price}}</span>
     </p>
     <div class="crypto-card__amount">
       <span class="crypto-card__amount__label">Amount:</span>
@@ -19,7 +19,7 @@
       >
     </div>
     <p>Holdings:
-      <span class="crypto-card__holdings">{{holdings || '-'}} {{currency}}</span>
+      <span class="crypto-card__holdings">{{holdings || '-'}}</span>
     </p>
   </div>
 </template>
@@ -45,6 +45,14 @@ export default {
   data () {
     return {
       _amount: this.amount
+    }
+  },
+
+  computed: {
+    _price () {
+      let result = this.price
+      result = typeof result === 'number' ? result.toFixed(2) : '-'
+      return result
     }
   },
 
