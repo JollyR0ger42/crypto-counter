@@ -51,7 +51,7 @@ export default {
   computed: {
     _price () {
       let result = this.price
-      result = typeof result === 'number' ? result.toFixed(2) : '-'
+      result = typeof result === 'number' ? result.toFixed(3) : '-'
       return result
     }
   },
